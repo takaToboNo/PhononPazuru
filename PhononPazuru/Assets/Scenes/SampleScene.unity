@@ -119,6 +119,25 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &491540165 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 792971845547516154, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
+  m_PrefabInstance: {fileID: 1007276423}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &491540172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491540165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 654d313579b52f64e999eaee66983baa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerOutOfBounds
+  boundsCollider: {fileID: 531702414}
+  deathDelay: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,7 +502,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2231970832457887853, guid: e667f7ace8e783247aa1df94c6e553d7, type: 3}
       propertyPath: m_LocalScale.y
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2231970832457887853, guid: e667f7ace8e783247aa1df94c6e553d7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -491,7 +510,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2231970832457887853, guid: e667f7ace8e783247aa1df94c6e553d7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 2231970832457887853, guid: e667f7ace8e783247aa1df94c6e553d7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -548,7 +567,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2231970832457887853, guid: e667f7ace8e783247aa1df94c6e553d7, type: 3}
       propertyPath: m_LocalScale.y
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2231970832457887853, guid: e667f7ace8e783247aa1df94c6e553d7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -556,7 +575,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2231970832457887853, guid: e667f7ace8e783247aa1df94c6e553d7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 2231970832457887853, guid: e667f7ace8e783247aa1df94c6e553d7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -625,7 +644,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2188813010613853642, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2188813010613853642, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
       propertyPath: m_LocalPosition.z
@@ -659,10 +678,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1125544262281597479, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 792971845547516154, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 491540172}
   m_SourcePrefab: {fileID: 100100000, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
 --- !u!1 &2044818086
 GameObject:
@@ -756,7 +779,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &2044818089
 SpriteRenderer:
   serializedVersion: 2
@@ -825,7 +848,7 @@ Transform:
   m_GameObject: {fileID: 2044818086}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: 11.02, z: 0}
+  m_LocalPosition: {x: -5, y: 2, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -848,10 +871,41 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1792
   surfaceOffset: 1
-  minVelocityThreshold: 2
-  maxVelocityThreshold: 1000
-  volumeMultiplier: 1
-  maxVolumeCap: 2
+  minVelocityThreshold: 5
+  velocityCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 5
+      value: 0
+      inSlope: -0.0000000045776445
+      outSlope: -0.0000000045776445
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0
+      outWeight: 0.40132013
+    - serializedVersion: 3
+      time: 20
+      value: 1
+      inSlope: 0.15373588
+      outSlope: 0.15373588
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.2746497
+      outWeight: 0.43296134
+    - serializedVersion: 3
+      time: 50
+      value: 10
+      inSlope: 0.3
+      outSlope: 0.3
+      tangentMode: 34
+      weightedMode: 1
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxVolumeCap: 30
 --- !u!1001 &2661672363667709269
 PrefabInstance:
   m_ObjectHideFlags: 0

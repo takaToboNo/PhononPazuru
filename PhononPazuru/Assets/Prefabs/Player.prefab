@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3637610606431716031}
   - component: {fileID: 2645987271072257071}
   - component: {fileID: 430390358426991738}
+  - component: {fileID: 1125544262281597479}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -217,3 +218,17 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1125544262281597479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 792971845547516154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 654d313579b52f64e999eaee66983baa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerOutOfBounds
+  boundsCollider: {fileID: 0}
+  deathDelay: 1
