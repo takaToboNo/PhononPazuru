@@ -39,6 +39,11 @@ public class StoneCollisionHandler : MonoBehaviour
         // グラフから音量を決定
         float finalVolume = Mathf.Min(impactCurve.Evaluate(impactForce), maxVolumeCap);
 
+        //  デバッグログの表示
+        // F2は小数点以下2桁までの表示を意味します
+        Debug.Log($"<color=cyan>[Collision]</color> 相手: {collision.gameObject.name} | " +
+                  $"速度: {collision.relativeVelocity.magnitude:F2} | 衝撃: {impactForce:F2} | 音量: {finalVolume:F2}");
+
         // --- 生成処理 ---
         ContactPoint2D contact = collision.contacts[0];
         Vector2 spawnPosition = contact.point + (contact.normal * surfaceOffset);

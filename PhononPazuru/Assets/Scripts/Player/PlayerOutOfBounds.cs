@@ -1,55 +1,41 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement; // 1. これを追加
 
 public class PlayerOutOfBounds : MonoBehaviour
 {
     [Header("参照設定")]
     [SerializeField] private Collider2D boundsCollider;
 
-    [Header("リスポーン設定")]
+    [Header("リロード設定")]
     [SerializeField] private float deathDelay = 3.0f;
 
-    private Vector2 startPosition;
     private Coroutine deathCoroutine;
-    private Rigidbody2D rb;
 
     void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-
         if (boundsCollider == null)
         {
-            Debug.LogWarning($"{gameObject.name}: boundsCollider が設定されていません。インスペクターで CameraBounds を割り当ててください。");
+            Debug.LogWarning($"{gameObject.name}: boundsCollider が設定されていません。");
         }
     }
 
-    void Start()
-    {
-        startPosition = transform.position;
-    }
-
-    // オブジェクトが非アクティブ、または破棄される時にコルーチンを確実に止める
-    void OnDisable()
-    {
-        StopDeathTimer();
-    }
-
+    // エリア外に出た時の処理
     private void OnTriggerExit2D(Collider2D other)
     {
-        // 1. すでにオブジェクトが破棄されている場合は何もしない
         if (this == null) return;
 
-        // 2. 衝突したのが指定した境界線かチェック
         if (other == boundsCollider)
         {
             if (deathCoroutine == null)
             {
                 deathCoroutine = StartCoroutine(DeathTimer());
-                Debug.Log("<color=orange>エリア外：カウントダウン開始</color>");
+                Debug.Log("<color=orange>エリア外：リロードカウント開始</color>");
             }
         }
     }
 
+    // エリア内に戻った時の処理
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (this == null) return;
@@ -66,38 +52,30 @@ public class PlayerOutOfBounds : MonoBehaviour
         {
             StopCoroutine(deathCoroutine);
             deathCoroutine = null;
-            Debug.Log("<color=cyan>エリア復帰：カウントダウン停止</color>");
+            Debug.Log("<color=cyan>エリア復帰：リロード中止</color>");
         }
     }
 
     private IEnumerator DeathTimer()
     {
-        // 猶予時間を待機
         yield return new WaitForSeconds(deathDelay);
 
-        // 3. 待機が終わった瞬間に自分がまだ存在するか最終確認
         if (this != null && gameObject.activeInHierarchy)
         {
-            Respawn();
+            RestartScene(); // 2. リスタートを実行
         }
     }
 
-    public void Respawn()
+    // 3. シーンを最初からやり直すメソッド
+    public void RestartScene()
     {
-        // 念押しでの存在チェック
-        if (this == null) return;
+        Debug.Log("<color=red>エリア外によるシーンリロード</color>");
+        // 現在のシーン名を取得してロード（最初からになる）
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 
-        transform.position = startPosition;
-        deathCoroutine = null;
-
-        if (rb != null)
-        {
-            // Unity 6 最新プロパティ
-            rb.linearVelocity = Vector2.zero;
-            rb.angularVelocity = 0f;
-            rb.totalForce = Vector2.zero;
-        }
-
-        Debug.Log("<color=red>リスポーン完了</color>");
+    void OnDisable()
+    {
+        StopDeathTimer();
     }
 }
