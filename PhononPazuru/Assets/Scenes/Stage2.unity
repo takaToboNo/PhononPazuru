@@ -682,6 +682,10 @@ PrefabInstance:
       propertyPath: jumpForce
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 2645987271072257071, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 8064
+      objectReference: {fileID: 0}
     - target: {fileID: 3637610606431716031, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
       propertyPath: m_Offset.y
       value: 0.025

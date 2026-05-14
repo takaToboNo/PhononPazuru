@@ -14,12 +14,11 @@ public class PlayerController : MonoBehaviour
 
     [Header("接地判定の設定")]
     [SerializeField] private LayerMask groundLayer;
-    // 判定の厚み。足場から一瞬浮いても追従を維持するために少し余裕を持たせる
     [SerializeField] private float groundCheckExtra = 0.1f;
 
     [Header("コライダー設定")]
-    [Tooltip("摩擦0のBodyMaterialを適用したメインのコライダーをセットしてください")]
-    [SerializeField] private BoxCollider2D bodyCollider;
+    [SerializeField] private CapsuleCollider2D bodyCollider; // カプセルに変更
+    [SerializeField] private CircleCollider2D footCollider;   // 足元用を追加
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
@@ -30,11 +29,9 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
 
-        // bodyColliderが未設定の場合は自動取得を試みる
-        if (bodyCollider == null)
-        {
-            bodyCollider = GetComponent<BoxCollider2D>();
-        }
+        // 自動取得のロジックを更新
+        if (bodyCollider == null) bodyCollider = GetComponent<CapsuleCollider2D>();
+        if (footCollider == null) footCollider = GetComponent<CircleCollider2D>();
 
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
@@ -45,7 +42,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnJump(InputValue value)
     {
-        // 接地時のみジャンプ。足場の垂直速度があれば加算する
         if (value.isPressed && isGrounded)
         {
             float newJumpV = jumpForce + (platformVelocity.y > 0 ? platformVelocity.y : 0);
@@ -61,13 +57,17 @@ public class PlayerController : MonoBehaviour
 
     private void CheckGrounded()
     {
-        // 判定範囲：bodyColliderの幅より少し狭く(0.9f)して壁への引っ掛かりを防ぐ
-        Vector2 boxSize = new Vector2(bodyCollider.bounds.size.x * 0.9f, 0.05f);
-        // 判定開始位置：bodyColliderの底面からの距離
-        float castDistance = (bodyCollider.bounds.size.y / 2f) + groundCheckExtra;
+        // 足元のサークルコライダーの半径と中心を基準にする
+        float radius = footCollider.radius;
+        // 判定の幅をサークルの直径よりわずかに狭くする
+        Vector2 boxSize = new Vector2(radius * 2f * 0.9f, 0.05f);
+
+        // 足元サークルの底面から下方向にレイを飛ばす
+        // castDistanceはサークルの中心から底面までの距離 + 余裕分
+        float castDistance = radius + groundCheckExtra;
 
         RaycastHit2D hit = Physics2D.BoxCast(
-            bodyCollider.bounds.center,
+            footCollider.bounds.center,
             boxSize,
             0f,
             Vector2.down,
@@ -88,27 +88,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // ApplyMovementは変更なしでOK
     private void ApplyMovement()
     {
         float targetX = moveInput.x * moveSpeed;
 
         if (isGrounded)
         {
-            // 足場の速度をベースに、入力分の速度を加える
             float finalX = targetX + platformVelocity.x;
             float finalY = rb.linearVelocity.y;
-
-            // 足場が上昇している場合、Y速度が負（落下）にならないように補正
             if (platformVelocity.y > 0 && finalY < platformVelocity.y)
             {
                 finalY = platformVelocity.y;
             }
-
             rb.linearVelocity = new Vector2(finalX, finalY);
         }
         else
         {
-            // 空中制御：現在の速度から目標速度へ補完
             float currentX = rb.linearVelocity.x;
             float newX = Mathf.Lerp(currentX, targetX, airControl);
             rb.linearVelocity = new Vector2(newX, rb.linearVelocity.y);
