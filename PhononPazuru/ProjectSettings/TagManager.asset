@@ -17,8 +17,8 @@ TagManager:
   - GroundAbsorptive
   - GroundTransparent
   - GroundSilent
-  - 
-  - 
+  - Item
+  - BreakableBlock
   - 
   - 
   - 

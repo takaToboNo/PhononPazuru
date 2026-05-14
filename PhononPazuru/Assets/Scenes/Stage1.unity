@@ -245,7 +245,7 @@ Camera:
   far clip plane: 1000
   field of view: 10
   orthographic: 1
-  orthographic size: 9
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -502,7 +502,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2231970832457887853, guid: e667f7ace8e783247aa1df94c6e553d7, type: 3}
       propertyPath: m_LocalScale.y
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2231970832457887853, guid: e667f7ace8e783247aa1df94c6e553d7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -567,7 +567,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2231970832457887853, guid: e667f7ace8e783247aa1df94c6e553d7, type: 3}
       propertyPath: m_LocalScale.y
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2231970832457887853, guid: e667f7ace8e783247aa1df94c6e553d7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -640,11 +640,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2188813010613853642, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 2188813010613853642, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2188813010613853642, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
       propertyPath: m_LocalPosition.z
@@ -681,6 +681,14 @@ PrefabInstance:
     - target: {fileID: 2645987271072257071, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
       propertyPath: jumpForce
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3637610606431716031, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.025
+      objectReference: {fileID: 0}
+    - target: {fileID: 8119052210121082229, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
+      propertyPath: m_Size.x
+      value: 0.95
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1125544262281597479, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
@@ -758,7 +766,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2942851999630788938, guid: 5bf9582f9a6daea49aeafd389bbeee4d, type: 3}
       propertyPath: Lens.OrthographicSize
-      value: 9
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2942851999630788938, guid: 5bf9582f9a6daea49aeafd389bbeee4d, type: 3}
       propertyPath: Target.TrackingTarget
@@ -831,7 +839,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2428983935454770665, guid: a1ce4d38fd1b507488d46df4130eff49, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.5
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2428983935454770665, guid: a1ce4d38fd1b507488d46df4130eff49, type: 3}
       propertyPath: m_LocalPosition.z
@@ -871,7 +879,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7695273918202487610, guid: a1ce4d38fd1b507488d46df4130eff49, type: 3}
       propertyPath: minImpactThreshold
-      value: 20
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8257146048184005395, guid: a1ce4d38fd1b507488d46df4130eff49, type: 3}
       propertyPath: m_Mass
@@ -904,7 +912,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2231970832457887853, guid: e667f7ace8e783247aa1df94c6e553d7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -9
+      value: -8
       objectReference: {fileID: 0}
     - target: {fileID: 2231970832457887853, guid: e667f7ace8e783247aa1df94c6e553d7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -957,15 +965,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5641472592311271239, guid: a98cca49db6abea49b8a090448c5cda4, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5641472592311271239, guid: a98cca49db6abea49b8a090448c5cda4, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5641472592311271239, guid: a98cca49db6abea49b8a090448c5cda4, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5641472592311271239, guid: a98cca49db6abea49b8a090448c5cda4, type: 3}
       propertyPath: m_LocalPosition.x

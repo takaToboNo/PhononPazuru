@@ -17,8 +17,11 @@ public class PlayerController : MonoBehaviour
     // 判定の厚み。足場から一瞬浮いても追従を維持するために少し余裕を持たせる
     [SerializeField] private float groundCheckExtra = 0.1f;
 
+    [Header("コライダー設定")]
+    [Tooltip("摩擦0のBodyMaterialを適用したメインのコライダーをセットしてください")]
+    [SerializeField] private BoxCollider2D bodyCollider;
+
     private Rigidbody2D rb;
-    private BoxCollider2D coll;
     private Vector2 moveInput;
     private Vector2 platformVelocity;
     private bool isGrounded;
@@ -26,7 +29,13 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        coll = GetComponent<BoxCollider2D>();
+
+        // bodyColliderが未設定の場合は自動取得を試みる
+        if (bodyCollider == null)
+        {
+            bodyCollider = GetComponent<BoxCollider2D>();
+        }
+
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;
@@ -52,13 +61,13 @@ public class PlayerController : MonoBehaviour
 
     private void CheckGrounded()
     {
-        // 判定範囲：コライダーの幅より少し狭く(0.9f)して壁への引っ掛かりを防ぐ
-        Vector2 boxSize = new Vector2(coll.bounds.size.x * 0.9f, 0.05f);
-        // 判定開始位置：コライダーの底面
-        float castDistance = (coll.bounds.size.y / 2f) + groundCheckExtra;
+        // 判定範囲：bodyColliderの幅より少し狭く(0.9f)して壁への引っ掛かりを防ぐ
+        Vector2 boxSize = new Vector2(bodyCollider.bounds.size.x * 0.9f, 0.05f);
+        // 判定開始位置：bodyColliderの底面からの距離
+        float castDistance = (bodyCollider.bounds.size.y / 2f) + groundCheckExtra;
 
         RaycastHit2D hit = Physics2D.BoxCast(
-            coll.bounds.center,
+            bodyCollider.bounds.center,
             boxSize,
             0f,
             Vector2.down,
@@ -86,7 +95,6 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
             // 足場の速度をベースに、入力分の速度を加える
-            // 垂直方向(y)も、足場が上下に動くことを想定して足場の速度を最低限保証する
             float finalX = targetX + platformVelocity.x;
             float finalY = rb.linearVelocity.y;
 
