@@ -151,8 +151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2459c7b6d1dc6f04f80aa38f283aa157, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DelayedSolidifyingGround
-  solidifyDelay: 2
+  solidifyDelay: 0.5
   targetLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 8384
   translucentAlpha: 0.7
