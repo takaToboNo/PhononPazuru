@@ -10,10 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2188813010613853642}
   - component: {fileID: 2016057841454347097}
-  - component: {fileID: 4699453258417459255}
   - component: {fileID: 2645987271072257071}
   - component: {fileID: 430390358426991738}
   - component: {fileID: 5163329060659054431}
+  - component: {fileID: -1429569949216423317}
+  - component: {fileID: 4699453258417459255}
   - component: {fileID: 4415831885892347550}
   - component: {fileID: 1893065447944752731}
   m_Layer: 6
@@ -97,33 +98,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!50 &4699453258417459255
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 792971845547516154}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 1
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 4
 --- !u!114 &2645987271072257071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,7 +115,7 @@ MonoBehaviour:
   airControl: 0.25
   groundLayer:
     serializedVersion: 2
-    m_Bits: 8064
+    m_Bits: 3968
   groundCheckExtra: 0.1
   bodyCollider: {fileID: 0}
   footCollider: {fileID: 0}
@@ -189,6 +163,119 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerOutOfBounds
   boundsCollider: {fileID: 0}
   deathDelay: 1
+--- !u!114 &-1429569949216423317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 792971845547516154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6990f51bbf8268429a7352a50b9193b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerGrabAndThrow
+  grabAction:
+    m_Name: Grab
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 0ef52a98-9229-4e83-bed4-5e59fd53d352
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 5e2a7994-399e-439f-a16a-268756ce5b74
+      m_Path: <Keyboard>/e
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Grab
+      m_Flags: 0
+    m_Flags: 0
+  moveAction:
+    m_Name: Move
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 42cee3c5-adad-4a78-b62e-e2575bc1a5ad
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 2D Vector
+      m_Id: 6b36e375-41cf-4a57-9ad7-efef039e72db
+      m_Path: 2DVector
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move
+      m_Flags: 4
+    - m_Name: up
+      m_Id: c3708869-681a-46f5-8d78-9ffe2a38e620
+      m_Path: 
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move
+      m_Flags: 8
+    - m_Name: down
+      m_Id: a8b806ad-2f32-4d9a-899e-80d5c8fa90e8
+      m_Path: 
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move
+      m_Flags: 8
+    - m_Name: left
+      m_Id: 0827e013-6fa9-4bac-b8ab-b0e6667349dc
+      m_Path: <Keyboard>/a
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move
+      m_Flags: 8
+    - m_Name: right
+      m_Id: d5939b99-3ed2-4f68-b823-e5dbe09bbb55
+      m_Path: <Keyboard>/d
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move
+      m_Flags: 8
+    m_Flags: 0
+  grabbableLayer:
+    serializedVersion: 2
+    m_Bits: 8192
+  boxCastOffset: {x: 0.25, y: 0}
+  boxCastSize: {x: 1, y: 1.8}
+  boxCastDistance: 0.5
+  holdOffset: {x: 0.75, y: 0.2}
+  throwForce: 8
+--- !u!50 &4699453258417459255
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 792971845547516154}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!70 &4415831885892347550
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
