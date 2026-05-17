@@ -21,6 +21,7 @@ public class PlayerGrabAndThrow : MonoBehaviour
 
     [Header("Throw Settings")]
     [SerializeField] private float throwForce = 12f;
+    [SerializeField] private float downThrowForce = 10f; // ★下投げ用の専用速度（必要に応じてインスペクターで調整してね）
 
     private GameObject grabbedObject;
     private Rigidbody2D grabbedRb;
@@ -127,9 +128,22 @@ public class PlayerGrabAndThrow : MonoBehaviour
 
         grabbedRb.bodyType = RigidbodyType2D.Dynamic;
 
-        // 記憶した向き(facingDir)に水平投射
-        Vector2 throwDir = GetFacingDirection();
-        grabbedRb.linearVelocity = throwDir * throwForce;
+        // 現在の入力を取得
+        Vector2 moveInput = moveAction.ReadValue<Vector2>();
+
+        // 【修正ポイント】
+        // 左右に微小な入力があっても、Sキー（下）が押されていれば（Yがマイナス値なら）下投げを優先する
+        // キーボードの同時押し対策として、判定を -0.1f（少しでも下に入っていればOK）に広げます
+        if (moveInput.y < -0.1f)
+        {
+            grabbedRb.linearVelocity = Vector2.down * downThrowForce;
+        }
+        else
+        {
+            // それ以外は通常通り横に投げる
+            Vector2 throwDir = GetFacingDirection();
+            grabbedRb.linearVelocity = throwDir * throwForce;
+        }
 
         grabbedObject = null;
         grabbedRb = null;

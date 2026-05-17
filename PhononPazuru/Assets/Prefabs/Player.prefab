@@ -218,7 +218,7 @@ MonoBehaviour:
       m_Flags: 8
     - m_Name: down
       m_Id: a8b806ad-2f32-4d9a-899e-80d5c8fa90e8
-      m_Path: 
+      m_Path: <Keyboard>/s
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -249,6 +249,7 @@ MonoBehaviour:
   boxCastDistance: 0.5
   holdOffset: {x: 0.75, y: 0.2}
   throwForce: 8
+  downThrowForce: 2
 --- !u!50 &4699453258417459255
 Rigidbody2D:
   serializedVersion: 5
