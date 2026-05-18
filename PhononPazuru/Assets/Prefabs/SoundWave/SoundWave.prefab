@@ -181,7 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SoundWave
   speed: 5
   volume: 1
-  durationPerVolume: 1
+  durationPerVolume: 1.5
   volumeCurve:
     serializedVersion: 2
     m_Curve:
