@@ -138,6 +138,71 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerOutOfBounds
   boundsCollider: {fileID: 531702414}
   deathDelay: 1
+--- !u!1001 &493151208
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3247573553447066926, guid: ba0eb2dba74fc2a4f988fcf8f619abcc, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3247573553447066926, guid: ba0eb2dba74fc2a4f988fcf8f619abcc, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819555790855813075, guid: ba0eb2dba74fc2a4f988fcf8f619abcc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.2172613
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819555790855813075, guid: ba0eb2dba74fc2a4f988fcf8f619abcc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.8538581
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819555790855813075, guid: ba0eb2dba74fc2a4f988fcf8f619abcc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819555790855813075, guid: ba0eb2dba74fc2a4f988fcf8f619abcc, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819555790855813075, guid: ba0eb2dba74fc2a4f988fcf8f619abcc, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819555790855813075, guid: ba0eb2dba74fc2a4f988fcf8f619abcc, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819555790855813075, guid: ba0eb2dba74fc2a4f988fcf8f619abcc, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.0000008940697
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819555790855813075, guid: ba0eb2dba74fc2a4f988fcf8f619abcc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819555790855813075, guid: ba0eb2dba74fc2a4f988fcf8f619abcc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819555790855813075, guid: ba0eb2dba74fc2a4f988fcf8f619abcc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9166138211019228411, guid: ba0eb2dba74fc2a4f988fcf8f619abcc, type: 3}
+      propertyPath: m_Name
+      value: GrabbableMegaphone
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ba0eb2dba74fc2a4f988fcf8f619abcc, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,6 +699,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1429569949216423317, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 792971845547516154, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1101,3 +1170,4 @@ SceneRoots:
   - {fileID: 871567896}
   - {fileID: 5495994299727074743}
   - {fileID: 7323539842343276263}
+  - {fileID: 493151208}
