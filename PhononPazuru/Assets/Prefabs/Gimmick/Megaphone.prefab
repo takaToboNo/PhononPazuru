@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7894314520566924398}
   - component: {fileID: 7300232116535568087}
   - component: {fileID: 1800230980117264652}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Megaphone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 857784318785862818}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

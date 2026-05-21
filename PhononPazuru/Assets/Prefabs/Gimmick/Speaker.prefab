@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4482169421127439107}
   - component: {fileID: 3931772469478130110}
   - component: {fileID: 2875962149719933565}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Speaker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,7 +165,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4889971105712664558}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
