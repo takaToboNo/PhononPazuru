@@ -17,19 +17,23 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float groundCheckExtra = 0.1f;
 
     [Header("コライダー設定")]
-    [SerializeField] private CapsuleCollider2D bodyCollider; // カプセルに変更
-    [SerializeField] private CircleCollider2D footCollider;   // 足元用を追加
+    [SerializeField] private CapsuleCollider2D bodyCollider;
+    [SerializeField] private CircleCollider2D footCollider;
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
     private Vector2 platformVelocity;
     private bool isGrounded;
 
+    // 振動床からの弾き飛ばし力を予約する変数
+    private Vector2 pendingLaunchForce = Vector2.zero;
+    private bool hasPendingLaunch = false;
+    private float disableGroundCheckTimer = 0f; // 接地判定を一時停止するタイマー
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
 
-        // 自動取得のロジックを更新
         if (bodyCollider == null) bodyCollider = GetComponent<CapsuleCollider2D>();
         if (footCollider == null) footCollider = GetComponent<CircleCollider2D>();
 
@@ -51,19 +55,47 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        // 弾き飛ばしの予約がある場合、すべての移動計算の「前」に処理する
+        if (hasPendingLaunch)
+        {
+            rb.linearVelocity = pendingLaunchForce;
+
+            // 予約をリセット
+            pendingLaunchForce = Vector2.zero;
+            hasPendingLaunch = false;
+
+            isGrounded = false;
+            platformVelocity = Vector2.zero;
+
+            // 0.1秒間、床へのめり込みによる物理ブレーキや接地再判定を完全に無効化する
+            disableGroundCheckTimer = 0.1f;
+            return; // 通常の移動処理（ApplyMovement）をスキップして即座に飛び上がる
+        }
+
         CheckGrounded();
         ApplyMovement();
     }
 
+    // 床側から呼び出されて、弾き飛ばし力を予約するためのメソッド
+    public void QueueLaunchForce(Vector2 force)
+    {
+        pendingLaunchForce = force;
+        hasPendingLaunch = true;
+    }
+
     private void CheckGrounded()
     {
-        // 足元のサークルコライダーの半径と中心を基準にする
-        float radius = footCollider.radius;
-        // 判定の幅をサークルの直径よりわずかに狭くする
-        Vector2 boxSize = new Vector2(radius * 2f * 0.9f, 0.05f);
+        // タイマーが作動している間は接地判定をせず、空中扱いにする
+        if (disableGroundCheckTimer > 0f)
+        {
+            disableGroundCheckTimer -= Time.fixedDeltaTime;
+            isGrounded = false;
+            platformVelocity = Vector2.zero;
+            return;
+        }
 
-        // 足元サークルの底面から下方向にレイを飛ばす
-        // castDistanceはサークルの中心から底面までの距離 + 余裕分
+        float radius = footCollider.radius;
+        Vector2 boxSize = new Vector2(radius * 2f * 0.9f, 0.05f);
         float castDistance = radius + groundCheckExtra;
 
         RaycastHit2D hit = Physics2D.BoxCast(
@@ -88,7 +120,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // ApplyMovementは変更なしでOK
     private void ApplyMovement()
     {
         float targetX = moveInput.x * moveSpeed;

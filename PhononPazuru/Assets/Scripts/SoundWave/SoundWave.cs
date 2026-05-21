@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
-public class SoundWave : MonoBehaviour
+public class SoundWave : MonoBehaviour, IMovingPlatform
 {
     [Header("基本設定")]
     public float speed = 5f;
@@ -51,6 +51,12 @@ public class SoundWave : MonoBehaviour
         spriteRenderer.color = color;
 
         if (progress >= 1f) Destroy(gameObject);
+    }
+
+    // IMovingPlatform の実装
+    public Vector2 GetVelocity()
+    {
+        return transform.right * speed;  // FixedUpdate と同じ速度を返す
     }
 
     void FixedUpdate()
