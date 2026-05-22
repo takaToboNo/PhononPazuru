@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem; // これを追加！
+using UnityEngine.InputSystem; // 必須
 
 public class SceneReloader : MonoBehaviour
 {
-    void Update()
+    // PlayerInputコンポーネントから呼び出されるメソッド
+    private void OnRestart(InputValue value)
     {
-        // 新しいInput Systemでのキー判定
-        if (Keyboard.current.rKey.wasPressedThisFrame)
+        if (value.isPressed)
         {
             RestartScene();
         }
