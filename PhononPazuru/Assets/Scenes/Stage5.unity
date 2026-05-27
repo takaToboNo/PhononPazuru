@@ -375,25 +375,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc01d83cb4d2aa845abb38497584738e, type: 3}
---- !u!1 &491540165 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 792971845547516154, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
-  m_PrefabInstance: {fileID: 1007276423}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &491540172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 491540165}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 654d313579b52f64e999eaee66983baa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerOutOfBounds
-  boundsCollider: {fileID: 531702414}
-  deathDelay: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -987,6 +968,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 0.025
       objectReference: {fileID: 0}
+    - target: {fileID: 5163329060659054431, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
+      propertyPath: boundsCollider
+      value: 
+      objectReference: {fileID: 531702414}
     - target: {fileID: 8119052210121082229, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
       propertyPath: m_Size.x
       value: 0.95
@@ -995,10 +980,7 @@ PrefabInstance:
     - {fileID: 1125544262281597479, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 792971845547516154, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 491540172}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
 --- !u!1001 &1116144291
 PrefabInstance:
