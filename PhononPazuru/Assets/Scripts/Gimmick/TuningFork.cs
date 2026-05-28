@@ -6,16 +6,19 @@ public class TuningFork : MonoBehaviour
     [SerializeField] private GameObject soundWavePrefab; // 発射する音波のプレハブ
     [SerializeField] private Transform spawnPoint;       // 音波を生成する位置（空のオブジェクトをアタッチ）
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    // ★ OnCollisionEnter2D から OnTriggerEnter2D に変更
+    // これにより、音波がトリガーでも地面（実体）としての機能を保ったまま検知できます
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        SoundWave incomingWave = collision.gameObject.GetComponent<SoundWave>();
+        // 接触したオブジェクトから SoundWave コンポーネントを取得
+        SoundWave incomingWave = collider.gameObject.GetComponent<SoundWave>();
 
         if (incomingWave != null)
         {
             float incomingVolume = incomingWave.volume;
 
-            // 1. 先に当たった音波を削除
-            Destroy(collision.gameObject);
+            // 1. 先に当たった音波を削除（collider.gameObject を破壊）
+            Destroy(collider.gameObject);
 
             // 2. 生成位置の決定（未設定なら自身の位置）
             Vector3 targetPosition = spawnPoint != null ? spawnPoint.position : transform.position;

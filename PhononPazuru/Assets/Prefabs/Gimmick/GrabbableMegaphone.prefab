@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 3247573553447066926}
   - component: {fileID: 649005337892238343}
   - component: {fileID: 3368851990180424402}
+  - component: {fileID: -1490896005425873339}
   m_Layer: 13
   m_Name: GrabbableMegaphone
   m_TagString: Untagged
@@ -184,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef0000b6a8f939c4fa095842e24fce05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Megaphone
-  soundWavePrefab: {fileID: 2807836871546647710, guid: c09acfa7fa299414b90f77b9347ccbbd, type: 3}
+  soundWavePrefab: {fileID: 8221887829668680127, guid: 7d9df6fe7208d4049813e31658c66f9d, type: 3}
   firePoint: {fileID: 3376324319573649127}
   volumeMultiplier: 2
   useAngleLimit: 1
@@ -220,3 +221,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &-1490896005425873339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9166138211019228411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a3860dbea4bbf040a34df0b100894ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropObject

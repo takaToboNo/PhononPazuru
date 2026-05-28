@@ -1,0 +1,46 @@
+{
+    "version": 1,
+    "name": "SceneManager",
+    "maps": [
+        {
+            "name": "Restart",
+            "id": "6787ce04-2e15-4fcf-aabc-9ea8659bbd4c",
+            "actions": [
+                {
+                    "name": "Restart",
+                    "type": "Button",
+                    "id": "fede1dd1-1dca-4789-a632-972c234922df",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e8f6eac5-3e97-410b-ab2d-2eb4685fd01d",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Restart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "55834dd6-b1d9-4c11-84b4-6aa82ab3844e",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Restart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

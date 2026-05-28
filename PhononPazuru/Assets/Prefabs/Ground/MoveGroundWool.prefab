@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5364605751753239340}
   - component: {fileID: 8192480943007704350}
   - component: {fileID: 5209092193676031598}
+  - component: {fileID: -3180138216665824209}
   m_Layer: 11
   m_Name: MoveGroundWool
   m_TagString: Untagged
@@ -166,3 +167,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &-3180138216665824209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4511829419494801191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a3860dbea4bbf040a34df0b100894ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropObject

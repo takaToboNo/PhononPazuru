@@ -138,6 +138,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerOutOfBounds
   boundsCollider: {fileID: 531702414}
   deathDelay: 1
+--- !u!1 &503872412 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3105736563222174285, guid: f9b50052adc6f8f488f3c91a46c216cd, type: 3}
+  m_PrefabInstance: {fileID: 1469426881}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &503872417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 503872412}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a3860dbea4bbf040a34df0b100894ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropObject
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,7 +657,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2188813010613853642, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7
+      value: -7.5
       objectReference: {fileID: 0}
     - target: {fileID: 2188813010613853642, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
       propertyPath: m_LocalPosition.y
@@ -684,7 +701,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2645987271072257071, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
       propertyPath: groundLayer.m_Bits
-      value: 8064
+      value: 3968
       objectReference: {fileID: 0}
     - target: {fileID: 3637610606431716031, guid: 61a6af7ffef0ec34aa963d04bc29b321, type: 3}
       propertyPath: m_Offset.y
@@ -780,6 +797,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: MoveGroundWood
       objectReference: {fileID: 0}
+    - target: {fileID: 3105736563222174285, guid: f9b50052adc6f8f488f3c91a46c216cd, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 4527832521328021384, guid: f9b50052adc6f8f488f3c91a46c216cd, type: 3}
+      propertyPath: m_GravityScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8990174001832235205, guid: f9b50052adc6f8f488f3c91a46c216cd, type: 3}
       propertyPath: m_LocalScale.x
       value: 3
@@ -831,7 +856,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3105736563222174285, guid: f9b50052adc6f8f488f3c91a46c216cd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 503872417}
   m_SourcePrefab: {fileID: 100100000, guid: f9b50052adc6f8f488f3c91a46c216cd, type: 3}
 --- !u!1001 &1580379291
 PrefabInstance:
@@ -1030,7 +1058,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2428983935454770665, guid: a1ce4d38fd1b507488d46df4130eff49, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.25
+      value: -3.75
       objectReference: {fileID: 0}
     - target: {fileID: 2428983935454770665, guid: a1ce4d38fd1b507488d46df4130eff49, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1072,6 +1100,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock
       objectReference: {fileID: 0}
+    - target: {fileID: 7695273918202487610, guid: a1ce4d38fd1b507488d46df4130eff49, type: 3}
+      propertyPath: soundWavePrefab
+      value: 
+      objectReference: {fileID: 8221887829668680127, guid: 7d9df6fe7208d4049813e31658c66f9d, type: 3}
     - target: {fileID: 7695273918202487610, guid: a1ce4d38fd1b507488d46df4130eff49, type: 3}
       propertyPath: minImpactThreshold
       value: 5

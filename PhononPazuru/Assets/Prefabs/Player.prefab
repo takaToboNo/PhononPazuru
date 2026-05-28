@@ -115,10 +115,10 @@ MonoBehaviour:
   airControl: 0.25
   groundLayer:
     serializedVersion: 2
-    m_Bits: 3968
+    m_Bits: 12160
   groundCheckExtra: 0.1
-  bodyCollider: {fileID: 0}
-  footCollider: {fileID: 0}
+  bodyCollider: {fileID: 4415831885892347550}
+  footCollider: {fileID: 1893065447944752731}
 --- !u!114 &430390358426991738
 MonoBehaviour:
   m_ObjectHideFlags: 0

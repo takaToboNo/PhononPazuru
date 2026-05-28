@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7457682958476398829}
   - component: {fileID: 7478462820346418780}
+  - component: {fileID: 4353221772556733760}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -44,3 +45,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55f4eb1d2f44b2a4bb28d8f66ac060db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneReloader
+--- !u!114 &4353221772556733760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2180691015901779424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
+  m_Actions: {fileID: -944628639613478452, guid: 92cf9e629263b37419ede4e34a471315, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Restart
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
