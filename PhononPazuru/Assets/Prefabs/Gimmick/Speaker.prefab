@@ -152,10 +152,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c4300b07cb862847883c82303004509, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Speaker
-  soundWavePrefab: {fileID: 2807836871546647710, guid: c09acfa7fa299414b90f77b9347ccbbd, type: 3}
+  soundWavePrefab: {fileID: 8221887829668680127, guid: 7d9df6fe7208d4049813e31658c66f9d, type: 3}
   interval: 1
   volumeRatio: 0.8
   spawnPoint: {fileID: 4889971105712664558}
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 8192
+  checkRadius: 0.3
 --- !u!1 &3339535491195765513
 GameObject:
   m_ObjectHideFlags: 0

@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 522590380022832672}
   - component: {fileID: 3814349379024314171}
   - component: {fileID: 780137341674203299}
+  - component: {fileID: 5221149623173337644}
   m_Layer: 13
   m_Name: GrabbableTuningFork
   m_TagString: Untagged
@@ -175,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5530be56214ed6429d8522ccdfbad52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TuningFork
-  soundWavePrefab: {fileID: 2807836871546647710, guid: c09acfa7fa299414b90f77b9347ccbbd, type: 3}
+  soundWavePrefab: {fileID: 8221887829668680127, guid: 7d9df6fe7208d4049813e31658c66f9d, type: 3}
   spawnPoint: {fileID: 8728826537447783882}
 --- !u!50 &780137341674203299
 Rigidbody2D:
@@ -204,3 +205,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &5221149623173337644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4042390065279540906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a3860dbea4bbf040a34df0b100894ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropObject

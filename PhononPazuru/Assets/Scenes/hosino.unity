@@ -150,7 +150,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503872412}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a3860dbea4bbf040a34df0b100894ca, type: 3}
   m_Name: 
@@ -815,11 +815,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8990174001832235205, guid: f9b50052adc6f8f488f3c91a46c216cd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.29
+      value: -4.59
       objectReference: {fileID: 0}
     - target: {fileID: 8990174001832235205, guid: f9b50052adc6f8f488f3c91a46c216cd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.52
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 8990174001832235205, guid: f9b50052adc6f8f488f3c91a46c216cd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1058,11 +1058,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2428983935454770665, guid: a1ce4d38fd1b507488d46df4130eff49, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.46
+      value: -4.64
       objectReference: {fileID: 0}
     - target: {fileID: 2428983935454770665, guid: a1ce4d38fd1b507488d46df4130eff49, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.44
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 2428983935454770665, guid: a1ce4d38fd1b507488d46df4130eff49, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1100,10 +1100,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock
       objectReference: {fileID: 0}
-    - target: {fileID: 7695273918202487610, guid: a1ce4d38fd1b507488d46df4130eff49, type: 3}
-      propertyPath: soundWavePrefab
-      value: 
-      objectReference: {fileID: 8221887829668680127, guid: 7d9df6fe7208d4049813e31658c66f9d, type: 3}
     - target: {fileID: 7695273918202487610, guid: a1ce4d38fd1b507488d46df4130eff49, type: 3}
       propertyPath: minImpactThreshold
       value: 5

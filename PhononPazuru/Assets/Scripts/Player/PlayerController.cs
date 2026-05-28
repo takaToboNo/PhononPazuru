@@ -85,7 +85,6 @@ public class PlayerController : MonoBehaviour
 
     private void CheckGrounded()
     {
-        // タイマーが作動している間は接地判定をせず、空中扱いにする
         if (disableGroundCheckTimer > 0f)
         {
             disableGroundCheckTimer -= Time.fixedDeltaTime;
@@ -112,6 +111,26 @@ public class PlayerController : MonoBehaviour
             isGrounded = true;
             IMovingPlatform platform = hit.collider.GetComponent<IMovingPlatform>();
             platformVelocity = (platform != null) ? platform.GetVelocity() : Vector2.zero;
+
+            // ★【追加】トリガー床（音波）の上昇による沈み込みを防止する座標補正
+            // 音波が上方向に動いている（platformVelocity.y > 0）かつ、相手がTriggerの場合
+            if (platformVelocity.y > 0f && hit.collider.isTrigger)
+            {
+                // BoxCastがヒットした位置（音波の上面）を取得
+                float groundY = hit.point.y;
+
+                // プレイヤーの足元コライダーの中心から下端までの距離
+                float footOffset = footCollider.offset.y - radius;
+
+                // プレイヤーが本来あるべき正しいY座標を計算
+                float targetY = groundY - footOffset;
+
+                // 現在の位置より沈み込んでいる場合、強制的に音波の表面に引き上げる
+                if (rb.position.y < targetY)
+                {
+                    rb.position = new Vector2(rb.position.x, targetY);
+                }
+            }
         }
         else
         {
@@ -127,11 +146,15 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
             float finalX = targetX + platformVelocity.x;
+
+            // ★【修正】音波の上昇速度とプレイヤーの縦速度を完全に同期させる
             float finalY = rb.linearVelocity.y;
-            if (platformVelocity.y > 0 && finalY < platformVelocity.y)
+            if (platformVelocity.y > 0)
             {
+                // 独自の計算をやめ、音波の縦速度を100%そのまま代入して追従させる
                 finalY = platformVelocity.y;
             }
+
             rb.linearVelocity = new Vector2(finalX, finalY);
         }
         else

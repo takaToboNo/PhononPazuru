@@ -45,15 +45,17 @@ public class Megaphone : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    // ★ OnCollisionEnter2D から OnTriggerEnter2D に変更
+    // これにより、音波がトリガー（Is Trigger=ON）でも地面としての実体を保ったまま検知できます。
+    private void OnTriggerEnter2D(Collider2D collider)
     {
         // クールタイム中なら衝突を完全に無視する
         if (!isReady) return;
 
         // 接触したオブジェクトが音波レイヤーかどうか判定
-        if (((1 << collision.gameObject.layer) & soundWaveLayer) != 0)
+        if (((1 << collider.gameObject.layer) & soundWaveLayer) != 0)
         {
-            SoundWave originalWave = collision.gameObject.GetComponent<SoundWave>();
+            SoundWave originalWave = collider.gameObject.GetComponent<SoundWave>();
 
             if (originalWave != null)
             {
@@ -61,11 +63,10 @@ public class Megaphone : MonoBehaviour
                 if (useAngleLimit)
                 {
                     // メガホンの正面方向（+90度補正）
-                    // 元の transform.right を Z軸で90度回転させたベクトルを作ります
                     Vector2 megaphoneForward = Quaternion.Euler(0, 0, 90f) * transform.right;
 
-                    // 侵入してきた音波の進行方向
-                    Vector2 waveDirection = collision.transform.right;
+                    // 侵入してきた音波の進行方向（colliderから直接transformを取得）
+                    Vector2 waveDirection = collider.transform.right;
 
                     // 補正した正面と、音波の進行方向のなす角を計算
                     float angleDifference = Vector2.Angle(megaphoneForward, waveDirection);
@@ -80,7 +81,7 @@ public class Megaphone : MonoBehaviour
                 float incomingVolume = originalWave.volume;
 
                 // 1. 先に古い音波を削除
-                Destroy(collision.gameObject);
+                Destroy(collider.gameObject);
 
                 // 2. 新しい音波を生成
                 Vector3 targetPosition = firePoint != null ? firePoint.position : transform.position;
