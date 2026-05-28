@@ -49,8 +49,13 @@ public class PlayerController : MonoBehaviour
     {
         if (value.isPressed && isGrounded)
         {
+            // 音波の上昇速度を考慮したジャンプ力を計算
             float newJumpV = jumpForce + (platformVelocity.y > 0 ? platformVelocity.y : 0);
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, newJumpV);
+
+            // ★【修正ポイント】
+            // 速度を直接代入するのではなく、床からの「弾き飛ばし予約システム」と同じ原理を使う
+            // ジャンプした瞬間に「弾き飛ばし予約」をONにして、次のFixedUpdateの先頭で最優先で飛び上がらせる
+            QueueLaunchForce(new Vector2(rb.linearVelocity.x, newJumpV));
         }
     }
 
@@ -98,103 +103,112 @@ public class PlayerController : MonoBehaviour
         {
             disableGroundCheckTimer -= Time.fixedDeltaTime;
             isGrounded = false;
-            isRidingOnTop = false; // ★追加
+            isRidingOnTop = false;
             platformVelocity = Vector2.zero;
             return;
         }
 
-        // --- 1. 縦方向（足元）の接地判定 ---
-        float radius = footCollider.radius;
-        Vector2 boxSize = new Vector2(radius * 2f * 0.9f, 0.05f);
-        float castDistance = radius + groundCheckExtra;
+        // すべてのフラグを一瞬リセット
+        isGrounded = false;
+        isRidingOnTop = false;
+        platformVelocity = Vector2.zero;
 
-        RaycastHit2D verticalHit = Physics2D.BoxCast(
-            footCollider.bounds.center,
-            boxSize,
+        if (bodyCollider == null || footCollider == null) return;
+
+        // ★【超重要】体全体（少し下まで広げたカプセル）で、今触れている地面や音波を「1つだけ」確実に捉える
+        float radius = footCollider.radius;
+        float castDist = 0.2f;
+
+        // プレイヤーの足元より少し下まで届くように下方向にカプセルキャスト
+        RaycastHit2D hit = Physics2D.CapsuleCast(
+            bodyCollider.bounds.center,
+            bodyCollider.size,
+            bodyCollider.direction,
             0f,
             Vector2.down,
-            castDistance,
+            castDist,
             groundLayer
         );
 
-        isGrounded = false;
-        isRidingOnTop = false; // ★まずは毎フレームリセット
-        platformVelocity = Vector2.zero;
-
-        if (verticalHit.collider != null)
+        // 下方向で見つからなければ、念のため左右もまとめて探す（空中での横衝突用）
+        if (hit.collider == null)
         {
-            isGrounded = true;
-            IMovingPlatform platform = verticalHit.collider.GetComponent<IMovingPlatform>();
-            platformVelocity = (platform != null) ? platform.GetVelocity() : Vector2.zero;
-
-            if (verticalHit.collider.isTrigger && platform != null)
-            {
-                // ★音波を足元で検知している ＝ 上に乗っている状態
-                isRidingOnTop = true;
-
-                float groundY = verticalHit.point.y;
-                float footOffset = footCollider.offset.y - radius;
-                float targetY = groundY - footOffset;
-
-                if (rb.position.y < targetY)
-                {
-                    rb.position = new Vector2(rb.position.x, targetY);
-                    if (rb.linearVelocity.y < 0f)
-                    {
-                        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
-                    }
-                }
-            }
-        }
-
-        // --- 2. 横・体全体方向の音波検知 ---
-        // 足元で音波の上に乗っていない（isRidingOnTop が false）場合のみ、横の壁としての判定を行う
-        if (!isRidingOnTop && bodyCollider != null)
-        {
-            float castDist = 0.2f;
-
             RaycastHit2D hitRight = Physics2D.CapsuleCast(bodyCollider.bounds.center, bodyCollider.size, bodyCollider.direction, 0f, Vector2.right, castDist, groundLayer);
             RaycastHit2D hitLeft = Physics2D.CapsuleCast(bodyCollider.bounds.center, bodyCollider.size, bodyCollider.direction, 0f, Vector2.left, castDist, groundLayer);
 
-            RaycastHit2D activeHit = new RaycastHit2D();
-            if (hitRight.collider != null && hitRight.collider.isTrigger) activeHit = hitRight;
-            else if (hitLeft.collider != null && hitLeft.collider.isTrigger) activeHit = hitLeft;
+            if (hitRight.collider != null) hit = hitRight;
+            else if (hitLeft.collider != null) hit = hitLeft;
+        }
 
-            if (activeHit.collider != null)
+        // 何かしらの地形・音波に触れている場合
+        if (hit.collider != null)
+        {
+            isGrounded = true;
+            IMovingPlatform platform = hit.collider.GetComponent<IMovingPlatform>();
+            platformVelocity = (platform != null) ? platform.GetVelocity() : Vector2.zero;
+
+            // 触れた相手が「音波（Trigger）」だった場合の仕分け処理
+            if (hit.collider.isTrigger && platform != null)
             {
-                IMovingPlatform platform = activeHit.collider.GetComponent<IMovingPlatform>();
-                if (platform != null)
+                // プレイヤーの足元の実際のY座標
+                float footOffset = footCollider.offset.y - radius;
+                float currentFootY = rb.position.y + footOffset;
+
+                // 音波の「中心の高さ」を取得
+                float waveCenterY = hit.collider.bounds.center.y;
+                // 音波の「上面の高さ」を取得（極小サイズでもboundsから正確に取れます）
+                float waveTopY = hit.collider.bounds.max.y;
+
+                // ----------------------------------------------------
+                // パターンA：【音波の上にいるとき】
+                // プレイヤーの足元が、音波の中心よりも上にあるなら「上に乗っている」とみなす
+                // ----------------------------------------------------
+                if (currentFootY >= waveCenterY - 0.05f)
                 {
-                    Vector2 waveVel = platform.GetVelocity();
+                    isRidingOnTop = true;
 
-                    if (Mathf.Abs(waveVel.x) > 0f)
+                    // 上から着地、または乗って沈み込もうとしたらY座標を表面に固定
+                    float targetY = waveTopY - footOffset;
+                    if (rb.position.y <= targetY)
                     {
-                        isGrounded = true;
-                        platformVelocity = waveVel;
-
-                        float playerRadius = bodyCollider.size.x * 0.5f;
-
-                        // ★【修正ポイント】
-                        // すでに上に乗っている（isRidingOnTop）なら、横からの位置強制補正は絶対にスキップする！
-                        // これにより、上を歩いている最中に側面センサーが一瞬かすめても引き戻されなくなります。
-                        if (!isRidingOnTop)
+                        rb.position = new Vector2(rb.position.x, targetY);
+                        if (rb.linearVelocity.y < 0f)
                         {
-                            if (waveVel.x > 0f)
-                            {
-                                float targetX = activeHit.point.x + playerRadius;
-                                if (rb.position.x < targetX)
-                                {
-                                    rb.position = new Vector2(targetX, rb.position.y);
-                                }
-                            }
-                            else if (waveVel.x < 0f)
-                            {
-                                float targetX = activeHit.point.x - playerRadius;
-                                if (rb.position.x > targetX)
-                                {
-                                    rb.position = new Vector2(targetX, rb.position.y);
-                                }
-                            }
+                            rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+                        }
+                    }
+                }
+                // ----------------------------------------------------
+                // パターンB：【音波の横（側面）にいるとき】
+                // 足元が音波の中心より下 ＝ 完全に横から突っ込まれている状態
+                // ----------------------------------------------------
+                else
+                {
+                    isGrounded = false;
+                    isRidingOnTop = false;
+
+                    // ★【修正】波の速度ではなく、プレイヤーと音波の相対位置で押し出し方向を決める
+                    float playerRadius = bodyCollider.size.x * 0.5f;
+                    float waveCenterX = hit.collider.bounds.center.x;
+
+                    if (rb.position.x > waveCenterX)
+                    {
+                        // プレイヤーが音波の「右側」にいるなら、音波の右端のフチへ押し出す
+                        float waveRightX = hit.collider.bounds.max.x;
+                        float targetX = waveRightX + playerRadius;
+                        if (rb.position.x < targetX)
+                        {
+                            rb.position = new Vector2(targetX, rb.position.y);
+                        }
+                    }
+                    else
+                    {
+                        // プレイヤーが音波の「左側」にいるなら、音波の左端のフチへ押し出す
+                        float waveLeftX = hit.collider.bounds.min.x;
+                        float targetX = waveLeftX - playerRadius;
+                        if (rb.position.x > targetX)
+                        {
+                            rb.position = new Vector2(targetX, rb.position.y);
                         }
                     }
                 }
@@ -204,16 +218,15 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyMovement()
     {
-        // FixedUpdateでmoveInputが安全な値に書き換わっているため、そのまま計算してOK
         float targetX = moveInput.x * moveSpeed;
 
         if (isGrounded)
         {
-            // 入力が事前に制限されているため、単純な足し算でも絶対に逆走・めり込みが起きない
             float finalX = targetX + platformVelocity.x;
-
             float finalY = rb.linearVelocity.y;
-            if (platformVelocity.y > 0)
+
+            // ★【修正】「接地していて、かつ上に乗っているとき」だけ上方向の速度を同期する
+            if (isRidingOnTop && platformVelocity.y > 0)
             {
                 finalY = platformVelocity.y;
             }
@@ -222,6 +235,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            // 空中制御
             float currentX = rb.linearVelocity.x;
             float newX = Mathf.Lerp(currentX, targetX, airControl);
             rb.linearVelocity = new Vector2(newX, rb.linearVelocity.y);
