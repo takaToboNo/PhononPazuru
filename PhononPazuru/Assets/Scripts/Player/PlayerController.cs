@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
     private Vector2 platformVelocity;
     private bool isGrounded;
+    private bool isRidingOnTop;
 
     // 振動床からの弾き飛ばし力を予約する変数
     private Vector2 pendingLaunchForce = Vector2.zero;
@@ -55,24 +56,32 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // 弾き飛ばしの予約がある場合、すべての移動計算の「前」に処理する
         if (hasPendingLaunch)
         {
             rb.linearVelocity = pendingLaunchForce;
-
-            // 予約をリセット
             pendingLaunchForce = Vector2.zero;
             hasPendingLaunch = false;
-
             isGrounded = false;
             platformVelocity = Vector2.zero;
-
-            // 0.1秒間、床へのめり込みによる物理ブレーキや接地再判定を完全に無効化する
             disableGroundCheckTimer = 0.1f;
-            return; // 通常の移動処理（ApplyMovement）をスキップして即座に飛び上がる
+            return;
         }
 
         CheckGrounded();
+
+        // ★【修正】「横から押されている、かつ上に乗っていないとき」だけ入力をロックする
+        if (!isRidingOnTop)
+        {
+            if (platformVelocity.x > 0f && moveInput.x < 0f)
+            {
+                moveInput.x = 0f;
+            }
+            else if (platformVelocity.x < 0f && moveInput.x > 0f)
+            {
+                moveInput.x = 0f;
+            }
+        }
+
         ApplyMovement();
     }
 
@@ -89,15 +98,17 @@ public class PlayerController : MonoBehaviour
         {
             disableGroundCheckTimer -= Time.fixedDeltaTime;
             isGrounded = false;
+            isRidingOnTop = false; // ★追加
             platformVelocity = Vector2.zero;
             return;
         }
 
+        // --- 1. 縦方向（足元）の接地判定 ---
         float radius = footCollider.radius;
         Vector2 boxSize = new Vector2(radius * 2f * 0.9f, 0.05f);
         float castDistance = radius + groundCheckExtra;
 
-        RaycastHit2D hit = Physics2D.BoxCast(
+        RaycastHit2D verticalHit = Physics2D.BoxCast(
             footCollider.bounds.center,
             boxSize,
             0f,
@@ -106,52 +117,104 @@ public class PlayerController : MonoBehaviour
             groundLayer
         );
 
-        if (hit.collider != null)
+        isGrounded = false;
+        isRidingOnTop = false; // ★まずは毎フレームリセット
+        platformVelocity = Vector2.zero;
+
+        if (verticalHit.collider != null)
         {
             isGrounded = true;
-            IMovingPlatform platform = hit.collider.GetComponent<IMovingPlatform>();
+            IMovingPlatform platform = verticalHit.collider.GetComponent<IMovingPlatform>();
             platformVelocity = (platform != null) ? platform.GetVelocity() : Vector2.zero;
 
-            // ★【追加】トリガー床（音波）の上昇による沈み込みを防止する座標補正
-            // 音波が上方向に動いている（platformVelocity.y > 0）かつ、相手がTriggerの場合
-            if (platformVelocity.y > 0f && hit.collider.isTrigger)
+            if (verticalHit.collider.isTrigger && platform != null)
             {
-                // BoxCastがヒットした位置（音波の上面）を取得
-                float groundY = hit.point.y;
+                // ★音波を足元で検知している ＝ 上に乗っている状態
+                isRidingOnTop = true;
 
-                // プレイヤーの足元コライダーの中心から下端までの距離
+                float groundY = verticalHit.point.y;
                 float footOffset = footCollider.offset.y - radius;
-
-                // プレイヤーが本来あるべき正しいY座標を計算
                 float targetY = groundY - footOffset;
 
-                // 現在の位置より沈み込んでいる場合、強制的に音波の表面に引き上げる
                 if (rb.position.y < targetY)
                 {
                     rb.position = new Vector2(rb.position.x, targetY);
+                    if (rb.linearVelocity.y < 0f)
+                    {
+                        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+                    }
                 }
             }
         }
-        else
+
+        // --- 2. 横・体全体方向の音波検知 ---
+        // 足元で音波の上に乗っていない（isRidingOnTop が false）場合のみ、横の壁としての判定を行う
+        if (!isRidingOnTop && bodyCollider != null)
         {
-            isGrounded = false;
-            platformVelocity = Vector2.zero;
+            float castDist = 0.2f;
+
+            RaycastHit2D hitRight = Physics2D.CapsuleCast(bodyCollider.bounds.center, bodyCollider.size, bodyCollider.direction, 0f, Vector2.right, castDist, groundLayer);
+            RaycastHit2D hitLeft = Physics2D.CapsuleCast(bodyCollider.bounds.center, bodyCollider.size, bodyCollider.direction, 0f, Vector2.left, castDist, groundLayer);
+
+            RaycastHit2D activeHit = new RaycastHit2D();
+            if (hitRight.collider != null && hitRight.collider.isTrigger) activeHit = hitRight;
+            else if (hitLeft.collider != null && hitLeft.collider.isTrigger) activeHit = hitLeft;
+
+            if (activeHit.collider != null)
+            {
+                IMovingPlatform platform = activeHit.collider.GetComponent<IMovingPlatform>();
+                if (platform != null)
+                {
+                    Vector2 waveVel = platform.GetVelocity();
+
+                    if (Mathf.Abs(waveVel.x) > 0f)
+                    {
+                        isGrounded = true;
+                        platformVelocity = waveVel;
+
+                        float playerRadius = bodyCollider.size.x * 0.5f;
+
+                        // ★【修正ポイント】
+                        // すでに上に乗っている（isRidingOnTop）なら、横からの位置強制補正は絶対にスキップする！
+                        // これにより、上を歩いている最中に側面センサーが一瞬かすめても引き戻されなくなります。
+                        if (!isRidingOnTop)
+                        {
+                            if (waveVel.x > 0f)
+                            {
+                                float targetX = activeHit.point.x + playerRadius;
+                                if (rb.position.x < targetX)
+                                {
+                                    rb.position = new Vector2(targetX, rb.position.y);
+                                }
+                            }
+                            else if (waveVel.x < 0f)
+                            {
+                                float targetX = activeHit.point.x - playerRadius;
+                                if (rb.position.x > targetX)
+                                {
+                                    rb.position = new Vector2(targetX, rb.position.y);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
     private void ApplyMovement()
     {
+        // FixedUpdateでmoveInputが安全な値に書き換わっているため、そのまま計算してOK
         float targetX = moveInput.x * moveSpeed;
 
         if (isGrounded)
         {
+            // 入力が事前に制限されているため、単純な足し算でも絶対に逆走・めり込みが起きない
             float finalX = targetX + platformVelocity.x;
 
-            // ★【修正】音波の上昇速度とプレイヤーの縦速度を完全に同期させる
             float finalY = rb.linearVelocity.y;
             if (platformVelocity.y > 0)
             {
-                // 独自の計算をやめ、音波の縦速度を100%そのまま代入して追従させる
                 finalY = platformVelocity.y;
             }
 
