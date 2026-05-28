@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3475689805597372324}
   - component: {fileID: 4615589753526537192}
   - component: {fileID: 8540911712841418312}
+  - component: {fileID: 5125878032571286669}
   m_Layer: 13
   m_Name: GrabbableSpeaker
   m_TagString: Untagged
@@ -154,10 +155,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c4300b07cb862847883c82303004509, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Speaker
-  soundWavePrefab: {fileID: 2807836871546647710, guid: c09acfa7fa299414b90f77b9347ccbbd, type: 3}
+  soundWavePrefab: {fileID: 8221887829668680127, guid: 7d9df6fe7208d4049813e31658c66f9d, type: 3}
   interval: 1
   volumeRatio: 0.8
   spawnPoint: {fileID: 3972324939051817046}
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  checkRadius: 0.3
 --- !u!50 &4615589753526537192
 Rigidbody2D:
   serializedVersion: 5
@@ -197,6 +202,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d555241ab04d7a445b19fb98ee7a28df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HoldableSpeaker
+--- !u!114 &5125878032571286669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4236501647367592534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a3860dbea4bbf040a34df0b100894ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropObject
 --- !u!1 &5994996094904679978
 GameObject:
   m_ObjectHideFlags: 0

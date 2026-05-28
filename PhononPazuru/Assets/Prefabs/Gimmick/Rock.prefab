@@ -179,7 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa3754bb135d5e047a0d8371ec937348, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Rock
-  soundWavePrefab: {fileID: 2807836871546647710, guid: c09acfa7fa299414b90f77b9347ccbbd, type: 3}
+  soundWavePrefab: {fileID: 8221887829668680127, guid: 7d9df6fe7208d4049813e31658c66f9d, type: 3}
   targetLayer:
     serializedVersion: 2
     m_Bits: 1792
